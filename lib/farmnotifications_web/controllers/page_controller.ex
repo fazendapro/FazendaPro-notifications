@@ -1,9 +1,8 @@
-defmodule FarmnotificationsWeb.PageController do
-  use FarmnotificationsWeb, :controller
+defmodule FarmNotificationsWeb.PageController do
+  use FarmNotificationsWeb.WhatsApp
 
-  def home(conn, _params) do
-    # The home page is often custom made,
-    # so skip the default app layout.
-    render(conn, :home, layout: false)
+  def create(conn, %{"event" => "novo_gado", "data" => data}) do
+    FarmNotificationsWeb.Endpoint.broadcast("gado:notifications", "novo_gado", data)
+    json(conn, %{status: "ok"})
   end
 end
